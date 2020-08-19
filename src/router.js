@@ -1,25 +1,51 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import DisplayJson from './components/DisplayJson'
-import Register from './components/Register'
-import ViewBiller from './components/ViewBiller'
+import DisplayJson from './views/DisplayJson'
+import Register from './views/Register'
+import AddInvoice from './views/AddInvoice'
+import ViewBiller from './views/ViewBiller'
+import Dashboard from './views/Dashboard'
+import InvoiceForm from './views/InvoiceForm'
 Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/api/login',
       name: 'DisplayJson',
       component: DisplayJson
     },
     {
-      path: '/Register',
+      path: '/api/register',
       name: 'Register',
       component: Register
     },
     {
-      path: '/ViewBiller',
+      path: '/viewbiller',
       name: 'ViewBiller',
-      component: ViewBiller
+      component: ViewBiller,
+
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      children:[
+        {
+          path:'',
+          component:AddInvoice
+        },
+        {
+          path:'add-invoice',
+          component:AddInvoice
+        },
+        {
+          path:'invoice-form',
+          component:InvoiceForm
+        }
+      ]
     }
+
   ]
 })
+
+

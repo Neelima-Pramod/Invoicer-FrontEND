@@ -25,9 +25,16 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
-$primary: #B6040C;
+//$primary: #10507a;
+
+$primary: #2376ad;
+//$primary: #489dd6;
+//$primary: #392885;
+//$primary: #443681;
+//$primary: #9c38d6;
+//$primary: #d63882;
 $secondary: #807e7e;
-$link: #807e7e;
+$link: #14d865;
 
 //Custom styling
 
@@ -36,14 +43,17 @@ $navbar-item-img-max-height: none;
 $navbar-background-color:#f6f7f7;
 
 //Body
+//$body-background-color: #5f8faf;
 $body-background-color: #ffffff;
 $body-color: #0d0d0d;
 
 //input configuration
-$input-border-color: #000000;
+$input-border-color: black;
+
 $input-hover-border-color: #000000;
 $input-focus-border-color: #000000;
 $input-radius: 0;
+
 
 $label-weight: normal;
 $label-color: #0d0d0d;
@@ -54,8 +64,6 @@ $size-1: 2.25rem;
 
 //Button settings
 $button-border-width: 0;
-
-
 
 
 @import "~bulma";
@@ -118,10 +126,14 @@ $button-border-width: 0;
 
 
 //Input box css
-.input {
-  border-width: 1px;
-}
+// .input {
+//   border-width: 1px;
+// }
 
 .button{
   border-radius: 0;
+}
+
+.displayButton{
+  background: $purple;
 }
