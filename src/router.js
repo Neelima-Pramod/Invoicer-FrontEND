@@ -6,6 +6,7 @@ import AddInvoice from './views/AddInvoice'
 import ViewBiller from './views/ViewBiller'
 import Dashboard from './views/Dashboard'
 import InvoiceForm from './views/InvoiceForm'
+import Channel from './views/Channel'
 Vue.use(Router)
 export default new Router({
   routes: [
@@ -24,7 +25,7 @@ export default new Router({
       name: 'ViewBiller',
       component: ViewBiller,
 
-    },
+    },  
     {
       path: '/dashboard',
       name: 'Dashboard',
@@ -41,6 +42,10 @@ export default new Router({
         {
           path:'invoice-form',
           component:InvoiceForm
+        },
+        {
+          path:'/channel',
+          component:Channel
         }
       ]
     }
