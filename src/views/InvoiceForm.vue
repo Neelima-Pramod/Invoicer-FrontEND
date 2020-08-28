@@ -1,25 +1,24 @@
 <template>
-  <section class="section browns">
+  <section class="section">
     <!-- Payer Details -->
     <section class="box">
       <div class="columns">
         <div class="column is-4">
-          <b-field label="Payer Name:">
-            <b-input></b-input>
+          <b-field label="Invoice Number:">
+            <b-input v-model="invoice.invoiceNo" readonly="true"></b-input>
           </b-field>
-
-          <b-field label="Payer Email:">
-            <b-input type="email"></b-input>
+          <b-field label="Payer Name:">
+            <b-input v-model="invoice.payerName"></b-input>
           </b-field>
         </div>
 
         <div class="column">
           <b-field label="Due Date:">
-            <b-datepicker :show-week-number="false" icon="calendar-today" trap-focus></b-datepicker>
+            <b-datepicker :show-week-number="false" v-model="invoice.dueDate" icon="calendar-today" trap-focus></b-datepicker>
           </b-field>
 
-          <b-field label="Invoice Number:">
-            <b-input v-model="invoice.invoiceNo" disabled="true"></b-input>
+          <b-field label="Payer Email:">
+            <b-input type="email" v-model="invoice.payerEmail"></b-input>
           </b-field>
         </div>
 
@@ -42,7 +41,7 @@
 
     <section v-if="template === '1'" class="box">
       <b-field label="Free Text:">
-        <b-input type="textarea"></b-input>
+        <b-input type="textarea" v-model="invoice.freeTextOne"></b-input>
       </b-field>
     </section>
 
@@ -93,10 +92,9 @@
                 <b-input
                   type="number"
                   placeholder="Total"
-                  disabled="true"
+                  readonly="true"
                   v-model="props.row.productTotal"
                 ></b-input>
-                <!-- {{props.row.quantity*props.row.price}} -->
               </b-table-column>
 
               <b-table-column label="Action">
@@ -120,7 +118,7 @@
     <!-- Text -->
     <section class="box" v-if="template === '1'">
       <b-field label="Free Text:">
-        <b-input type="textarea"></b-input>
+        <b-input type="textarea" v-model="invoice.freeTextTwo"></b-input>
       </b-field>
     </section>
 
@@ -129,7 +127,7 @@
       <div class="columns">
         <div class="column is-8">
           <b-field label="Footer" class="box">
-            <b-input maxlength="200" type="textarea"></b-input>
+            <b-input maxlength="200" type="textarea" v-model="invoice.footer"></b-input>
           </b-field>
         </div>
 
@@ -138,7 +136,7 @@
             <div class="columns" style="font-size: 1.2rem;">
               <div class="column">Discount:</div>
               <div class="column">
-                <b-select type="number" v-model="discountSelected" placeholder="Discount" expanded>
+                <b-select v-model="discountSelected" placeholder="Discount" expanded>
                   <option value="10">10</option>
                   <option value="20">20</option>
                 </b-select>
@@ -153,14 +151,6 @@
         </div>
       </div>
     </section>
-
-    <!-- <section>
-      <div class="footer1 box">
-        <div class="has-text-right">
-          <b-button @click="continueInvoice">Continue</b-button>
-        </div>
-      </div>
-    </section>-->
 
     <section
       style="
@@ -190,33 +180,40 @@ export default {
   data() {
     return {
       template: "",
-      iCount:0,
-      sum:0,
+      iCount: 0,
+      sum: 0,
       dropFiles: [],
       invoice: {
+        invoiceNo: 0,
+        payerName: "",
+        payerEmail: "",
+        freeTextOne: "",
+        freeTextTwo: "",
         products: [],
         total: 0,
-        invoiceNo: 0
+        footer: "",
+        dueDate:""
       }
     };
   },
-   computed :{
-              discountSelected : {
-              get : function() {
-                  return this.$data.invoice.total
-              },
-              set : function(discount) {
-                if(this.iCount>=1){
-                   this.$data.invoice.total =this.sum
-                }
-                else{
-                  this.sum=this.$data.invoice.total
-                  this.iCount+=1;
-                }
-                this.$data.invoice.total=this.$data.invoice.total-(this.$data.invoice.total*discount)/100
-              }
-            }
-          },
+  computed: {
+    discountSelected: {
+      get: function() {
+        return this.$data.invoice.total;
+      },
+      set: function(discount) {
+        if (this.iCount >= 1) {
+          this.$data.invoice.total = this.sum;
+        } else {
+          this.sum = this.$data.invoice.total;
+          this.iCount += 1;
+        }
+        this.$data.invoice.total =
+          this.$data.invoice.total -
+          (this.$data.invoice.total * discount) / 100;
+      }
+    }
+  },
   mounted() {
     this.checkTemplateNo();
     this.addProduct();
@@ -242,8 +239,8 @@ export default {
         s_no: this.$data.invoice.products.length + 1,
         product_name: "",
         product_desc: "",
-        price: 0,
         quantity: 0,
+        price: 0,
         productTotal: 0
       };
       this.$data.invoice.products.push(products);
@@ -256,12 +253,23 @@ export default {
       });
       this.$data.invoice.total = tempTotal;
     },
+    saveInvoice() {
+      axios.post(
+        baseURL + "/api/invoices",this.invoice,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token")}`
+          }
+        }
+      ).then((response)=>this.$router.push("/channel?invoiceId="+response.data.id))
+    },
     continueInvoice() {
-      this.$router.push("/channel");
+      this.saveInvoice();
     }
   }
 };
 </script>
+<!--this.$router.push({path:`/channel?invoiceId=${response.data.id}`}))-->
 
 <style scoped>
 .footer1 {
@@ -275,3 +283,11 @@ export default {
   text-align: center;
 }
 </style>
+
+ <!-- <section>
+      <div class="footer1 box">
+        <div class="has-text-right">
+          <b-button @click="continueInvoice">Continue</b-button>
+        </div>
+      </div>
+    </section>-->

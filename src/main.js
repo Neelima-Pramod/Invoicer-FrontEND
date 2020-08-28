@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router.js'
 
+
 import VueRouter from 'vue-router'
 import Buefy from 'buefy'
 import { library } from '@fortawesome/fontawesome-svg-core';
