@@ -60,14 +60,14 @@
             :mobile-cards="true"
           >
             <template slot-scope="props">
-              <b-table-column field="s_no" label="Serial no" width="90">{{ props.row.s_no}}</b-table-column>
+              <b-table-column field="sNo" label="Serial no" width="90">{{ props.row.sNo}}</b-table-column>
 
-              <b-table-column field="product_name" label="Product Name">
-                <b-input v-model="props.row.product_name" placeholder=" Product Name" />
+              <b-table-column field="productName" label="Product Name">
+                <b-input v-model="props.row.productName" placeholder=" Product Name" />
               </b-table-column>
 
-              <b-table-column field="product_desc" label="Product Description">
-                <b-input v-model="props.row.product_desc" placeholder=" Product Description" />
+              <b-table-column field="description" label="Product Description">
+                <b-input v-model="props.row.description" placeholder=" Product Description" />
               </b-table-column>
 
               <b-table-column field="quantity" label="Quantity">
@@ -98,7 +98,7 @@
               </b-table-column>
 
               <b-table-column label="Action">
-                <fai class="ml1" icon="trash" size="is-large" />
+                <fai class="ml1" icon="trash" size="2x" />
               </b-table-column>
             </template>
           </b-table>
@@ -108,7 +108,7 @@
       <div class="columns">
         <div class="column has-text-right">
           <button class="is-primary button" @click="addProduct">
-            <fai icon="plus" size="md" />
+            <fai icon="plus" size="1x" />
             <span class="ml1">Product</span>
           </button>
         </div>
@@ -162,8 +162,8 @@
     >
       <div class="columns">
         <div class="column is-2"></div>
-        <div class="column has-background-primary pb2 pr2 has-text-right">
-          <button class="is-primary button mt1 ml2" @click="continueInvoice">Continue</button>
+        <div class="column has-background-primary has-text-right">
+          <button class="is-primary button mb1 mr1" @click="continueInvoice">Continue</button>
         </div>
       </div>
     </section>
@@ -208,6 +208,7 @@ export default {
           this.sum = this.$data.invoice.total;
           this.iCount += 1;
         }
+        this.discountSelected=discount;
         this.$data.invoice.total =
           this.$data.invoice.total -
           (this.$data.invoice.total * discount) / 100;
@@ -236,9 +237,9 @@ export default {
     },
     addProduct() {
       let products = {
-        s_no: this.$data.invoice.products.length + 1,
-        product_name: "",
-        product_desc: "",
+        sNo: this.$data.invoice.products.length + 1,
+        productName: "",
+        description: "",
         quantity: 0,
         price: 0,
         productTotal: 0
@@ -255,7 +256,7 @@ export default {
     },
     saveInvoice() {
       axios.post(
-        baseURL + "/api/invoices",this.invoice,
+        baseURL + "/api/invoice",this.invoice,
         {
           headers: {
             Authorization: `${localStorage.getItem("token")}`

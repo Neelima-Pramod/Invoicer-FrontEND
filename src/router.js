@@ -15,6 +15,11 @@ export default new Router({
       name: 'DisplayJson',
       component: DisplayJson
     },
+    // {
+    //   path: '/*',
+    //   name: 'DisplayJson',
+    //   component: DisplayJson
+    // },
     {
       path: '/api/register',
       name: 'Register',

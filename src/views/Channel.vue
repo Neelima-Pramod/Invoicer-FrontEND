@@ -110,7 +110,7 @@
       <div class="columns">
         <div class="column is-2"></div>
         <div class="column has-background-primary pb2 pr2 has-text-right">
-          <button class="is-primary button mt1 ml2">Continue</button>
+          <button class="is-primary button mb1 mr1">Continue</button>
         </div>
       </div>
     </section>
@@ -149,10 +149,8 @@ export default {
   }
 },
   methods: {
-    //    isDueDate(date) {
-    //         return moment(date).format('YYYY-MM-DD')
-    //     },
     getInvoiceData() {
+      console.log(this.$route.query.invoiceId)
       axios
         .get(baseURL + "/api/invoice/" + this.$route.query.invoiceId)
         .then(response => {
